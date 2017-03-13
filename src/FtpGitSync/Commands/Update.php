@@ -62,8 +62,10 @@ class Update extends Command
 
                 $zip = $this->createZip();
 
+                $local_public_folder = $this->config['paths']['public_folder'];
+
                 foreach ($files['add'] as $file) {
-                    $re = '@^(httpdocs)(?=/.*)@';
+                    $re = '@^(' . $local_public_folder . ')(?=/.*)@';
                     $filer = preg_replace($re, $environment['public_folder'], $file);
                     $zip->add($base_path . '/' . $file, $filer);
                     $this->success("$file > adjuntado");

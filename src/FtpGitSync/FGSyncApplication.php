@@ -7,6 +7,7 @@ use FtpGitSync\Commands\Init;
 use FtpGitSync\Commands\Start;
 use FtpGitSync\Commands\Sync;
 use FtpGitSync\Commands\Update;
+use FtpGitSync\Commands\Vendor;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,7 +26,8 @@ class FGSyncApplication extends Application
             new Diff(),
             new Start(),
             new Sync(),
-            new Update()
+            new Update(),
+            new Vendor()
         ]);
     }
 

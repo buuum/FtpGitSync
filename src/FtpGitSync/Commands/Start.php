@@ -43,16 +43,19 @@ class Start extends Command
             // create a zip
             $zip = $this->createZip();
 
+            $local_public_folder = $this->config['paths']['public_folder'];
+
             foreach ($files as $n => $file) {
-                $re = '@^(httpdocs)(?=/.*)@';
+                $re = '@^(' . $local_public_folder . ')(?=/.*)@';
                 $rfile = str_replace($this->dir_root() . '/', '', $file);
                 $rfile = preg_replace($re, $environment['public_folder'], $rfile);
                 $zip->add($file, $rfile);
             }
 
             $zip->add($this->dir_root() . '/.htaccess', '.htaccess');
-            $zip->add($this->dir_root() . '/httpdocs/.htaccess', $environment['public_folder'] . '/.htaccess');
-            $zip->add($this->dir_root() . '/httpdocs/.maintenance.php',
+            $zip->add($this->dir_root() . '/' . $local_public_folder . '/.htaccess',
+                $environment['public_folder'] . '/.htaccess');
+            $zip->add($this->dir_root() . '/' . $local_public_folder . '/.maintenance.php',
                 $environment['public_folder'] . '/.maintenance.php');
 
             $zip->close();
