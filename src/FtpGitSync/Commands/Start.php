@@ -41,9 +41,7 @@ class Start extends Command
             $files = $this->ignoreFiles($files);
 
             // create a zip
-            $this->zip_name = time() . '_deploy.zip';
-            $zip_path = $this->dir_root() . '/' . $this->zip_name;
-            $zip = Zip::create($zip_path);
+            $zip = $this->createZip();
 
             foreach ($files as $n => $file) {
                 $re = '@^(httpdocs)(?=/.*)@';
@@ -59,27 +57,13 @@ class Start extends Command
 
             $zip->close();
 
-
-            $this->ftp->put($environment['public_folder'] . '/Zip.php',
-                $this->dir_root() . '/vendor/buuum/zip/src/Zip/Zip.php');
-            $this->ftp->put($this->zip_name, $zip_path);
-            unlink($zip_path);
-
-            $temp_unzip_path = __DIR__ . '/_un';
-
-            $file_unzip = str_replace('{{zip_name}}', $this->zip_name,
-                file_get_contents(__DIR__ . '/../../app/unzip.php.dist'));
-
-            file_put_contents($temp_unzip_path, $file_unzip);
-
-            $this->ftp->put($environment['public_folder'] . '/unzip.php', $temp_unzip_path);
-            unlink($temp_unzip_path);
-
             // initalize temp and log folder with 0777
             $this->ftp->mkdir('temp');
             $this->ftp->chmod(0777, 'temp');
             $this->ftp->mkdir('log');
             $this->ftp->chmod(0777, 'log');
+
+            $this->uploadZip($environment);
 
             // initialize commits/commits.json
             $temp_commits_path = __DIR__ . '/_c';
@@ -87,9 +71,7 @@ class Start extends Command
             $this->ftp->put('commits/commits.json', $temp_commits_path);
             unlink($temp_commits_path);
 
-            // descomprimimos el zip en servidor
-            $host = $environment['url'] . '/unzip.php';
-            $this->curl_get_contents($host);
+            $this->unzip($environment);
 
         }
     }

@@ -6,6 +6,7 @@ use Buuum\Ftp\Connection;
 use Buuum\Ftp\FtpWrapper;
 use Buuum\Ftp\SSLConnection;
 use Buuum\Git;
+use Buuum\Zip\Zip;
 use Curl\Curl;
 use Symfony\Component\Yaml\Yaml;
 
@@ -36,6 +37,11 @@ class Command extends AbstractCommand
      * @var string
      */
     protected $zip_name;
+
+    /**
+     * @var string
+     */
+    protected $zip_path;
 
     protected function selectDB($question)
     {
@@ -216,6 +222,49 @@ class Command extends AbstractCommand
         $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
         $curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
         $curl->get($host);
+    }
+
+    protected function createZip()
+    {
+        $this->zip_name = time() . '_deploy.zip';
+        $this->zip_path = $this->dir_root() . '/' . $this->zip_name;
+        return Zip::create($this->zip_path);
+    }
+
+    protected function uploadZip($environment)
+    {
+
+        $this->ftp->put($environment['public_folder'] . '/Zip.php',
+            $this->dir_root() . '/vendor/buuum/zip/src/Zip/Zip.php');
+        $this->ftp->put($this->zip_name, $this->zip_path);
+        unlink($this->zip_path);
+
+        $temp_unzip_path = __DIR__ . '/_un';
+
+        $file_unzip = str_replace('{{zip_name}}', $this->zip_name,
+            file_get_contents(__DIR__ . '/../../app/unzip.php.dist'));
+
+        file_put_contents($temp_unzip_path, $file_unzip);
+
+        $this->ftp->put($environment['public_folder'] . '/unzip.php', $temp_unzip_path);
+        unlink($temp_unzip_path);
+
+    }
+
+    protected function unzip($environment)
+    {
+        // descomprimimos el zip en servidor
+        $host = $environment['url'] . '/unzip.php';
+        $this->curl_get_contents($host);
+    }
+
+    protected function sync_commits()
+    {
+        $temp_commits_path = $this->dir_root() . '/_c';
+        $this->createCommits($temp_commits_path);
+        $this->ftp->put('commits/commits.json', $temp_commits_path);
+        unlink($temp_commits_path);
+
     }
 
     protected function fire()

@@ -5,6 +5,8 @@ namespace FtpGitSync;
 use FtpGitSync\Commands\Diff;
 use FtpGitSync\Commands\Init;
 use FtpGitSync\Commands\Start;
+use FtpGitSync\Commands\Sync;
+use FtpGitSync\Commands\Update;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,7 +23,9 @@ class FGSyncApplication extends Application
         $this->addCommands([
             new Init(),
             new Diff(),
-            new Start()
+            new Start(),
+            new Sync(),
+            new Update()
         ]);
     }
 
