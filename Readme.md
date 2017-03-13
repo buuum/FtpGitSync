@@ -47,14 +47,12 @@ paths:
   temp: temp
   public_folder: httpdocs
 ignore:
-  files: [
-    ".gitignore",
-    "README.md"
-    ]
-  folders: [
-    "temp",
-    "log"
-    ]
+  files:
+    - ".gitignore"
+    - "README.md"
+  folders:
+    - "temp"
+    - "log"
 environments:
   local.dev:
     host: localhost
