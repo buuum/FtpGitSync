@@ -1,0 +1,10 @@
+<?php
+    require __DIR__ . '/Zip.php';
+
+    $zip = \Buuum\Zip\Zip::open(__DIR__.'/../{{zip_name}}');
+    $zip->extract(__DIR__.'/..');
+    $zip->close();
+
+    unlink(__DIR__.'/../{{zip_name}}');
+    unlink(__DIR__.'/Zip.php');
+    unlink(__DIR__.'/unzip.php');

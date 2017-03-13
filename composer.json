@@ -1,0 +1,37 @@
+{
+  "name": "buuum/ftpgitsync",
+  "type": "library",
+  "description": "Ftp Git sync package for your app",
+  "homepage": "https://github.com/buuum/FtpGitSync",
+  "keywords": [
+    "ftp",
+    "git",
+    "sync",
+    "command"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alfons Martinez",
+      "email": "alfonsmartinezparra@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "FtpGitSync\\": "src/FtpGitSync"
+    }
+  },
+  "require": {
+    "php": ">=5.5.0",
+    "symfony/console": "^3.2",
+    "symfony/yaml": "^3.2",
+    "buuum/ftp": "^1.0",
+    "buuum/git": "^1.0",
+    "buuum/zip": "^1.0",
+    "curl/curl": "^1.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "bin": ["src/bin/fgsync"]
+}

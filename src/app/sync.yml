@@ -1,0 +1,36 @@
+paths:
+  temp: temp
+ignore:
+  files: [
+    ".gitignore",
+    "README.md"
+    ]
+  folders: [
+    "temp",
+    "log"
+    ]
+environments:
+  local.dev:
+    host: localhost
+  dev.local.com:
+    url: https://dev.local.com
+    host: host.com
+    connection: ssl
+    port: 21
+    timeout: 90
+    passive: false
+    user:
+    password:
+    remotePath: /
+    public_folder: public_html
+  local.com:
+    url: https://local.com
+    host: host.com
+    connection: ftp
+    port: 21
+    timeout: 90
+    passive: false
+    user:
+    password:
+    remotePath: /
+    public_folder: httpdocs
