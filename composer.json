@@ -28,7 +28,7 @@
     "buuum/ftp": "^1.0",
     "buuum/git": "^1.0",
     "buuum/zip": "^1.0",
-    "curl/curl": "^1.6"
+    "php-curl-class/php-curl-class": "^7.2"
   },
   "require-dev": {
     "phpunit/phpunit": "*"
