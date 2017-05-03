@@ -2,8 +2,6 @@
 
 namespace FtpGitSync\Commands;
 
-use Buuum\Zip\Zip;
-
 class Start extends Command
 {
 
@@ -46,9 +44,10 @@ class Start extends Command
             $local_public_folder = $this->config['paths']['public_folder'];
 
             foreach ($files as $n => $file) {
-                $re = '@^(' . $local_public_folder . ')(?=/.*)@';
-                $rfile = str_replace($this->dir_root() . '/', '', $file);
+                $re = '@^(' . $local_public_folder . ')(?='. DIRECTORY_SEPARATOR .'.*)@';
+                $rfile = str_replace($this->dir_root() . DIRECTORY_SEPARATOR, '', $file);
                 $rfile = preg_replace($re, $environment['public_folder'], $rfile);
+                $rfile = str_replace(DIRECTORY_SEPARATOR, '/', $rfile);
                 $zip->add($file, $rfile);
             }
 

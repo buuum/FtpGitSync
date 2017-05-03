@@ -33,7 +33,7 @@ class Vendor extends Command
             $files = $this->rglob($path . '/vendor/' . $option . '*');
 
             foreach ($files as $n => $file) {
-                $rfile = str_replace($path . '/', '', $file);
+                $rfile = str_replace($path . DIRECTORY_SEPARATOR, '', $file);
                 if (!is_dir($file)) {
                     $zip->add($file, $rfile);
                 }
@@ -42,7 +42,7 @@ class Vendor extends Command
             $files = $this->rglob($path . '/vendor/composer/*');
 
             foreach ($files as $n => $file) {
-                $rfile = str_replace($path . '/', '', $file);
+                $rfile = str_replace($path . DIRECTORY_SEPARATOR, '', $file);
                 if (!is_dir($file)) {
                     $zip->add($file, $rfile);
                 }
@@ -53,7 +53,7 @@ class Vendor extends Command
         } else {
             $files = $this->rglob($path . '/vendor/*');
             foreach ($files as $n => $file) {
-                $rfile = str_replace($path . '/', '', $file);
+                $rfile = str_replace($path . DIRECTORY_SEPARATOR, '', $file);
                 if (!is_dir($file)) {
                     $zip->add($file, $rfile);
                 }

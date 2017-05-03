@@ -177,7 +177,7 @@ class Command extends AbstractCommand
             }
 
             foreach ($ignore_folders as $ignore_folder) {
-                if (strpos($file, $base_path . '/' . $ignore_folder) !== false) {
+                if (strpos($file, $base_path . DIRECTORY_SEPARATOR . $ignore_folder) !== false) {
                     $ignore = true;
                     break;
                 }
@@ -187,7 +187,7 @@ class Command extends AbstractCommand
             }
 
             foreach ($ignore_files as $ignore_file) {
-                if (strpos($file, $base_path . '/' . $ignore_file) !== false) {
+                if (strpos($file, $base_path . DIRECTORY_SEPARATOR . $ignore_file) !== false) {
                     $ignore = true;
                     break;
                 }
