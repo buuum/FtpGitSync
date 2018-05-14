@@ -32,6 +32,12 @@ class Start extends Command
         $this->setGit();
         $this->setFtp($environment);
 
+        if (!$this->ftp->chdir('temp')) {
+            $this->error("Falta la carpeta temp en el servidor");
+            die;
+        }
+        $this->ftp->cdUp();
+
         if ($commits = $this->getCommits()) {
             $this->error('ya esta iniciado el proyecto en el servidor');
         } else {
@@ -61,20 +67,20 @@ class Start extends Command
             $zip->close();
 
             // initalize temp and log folder with 0777
-            $this->ftp->mkdir('temp');
-            $this->ftp->chmod(0777, 'temp');
-            $this->ftp->mkdir('log');
-            $this->ftp->chmod(0777, 'log');
+            //$this->ftp->mkdir('temp');
+            //$this->ftp->chmod(0777, 'temp');
+            //$this->ftp->mkdir('log');
+            //$this->ftp->chmod(0777, 'log');
 
             $this->uploadZip($environment);
+
+            $this->unzip($environment);
 
             // initialize commits/commits.json
             $temp_commits_path = __DIR__ . '/_c';
             $this->createCommits($temp_commits_path);
             $this->ftp->put('commits/commits.json', $temp_commits_path);
             unlink($temp_commits_path);
-
-            $this->unzip($environment);
 
         }
     }

@@ -236,7 +236,7 @@ class Command extends AbstractCommand
 
         $this->ftp->put($environment['public_folder'] . '/Zip.php',
             $this->dir_root() . '/vendor/buuum/zip/src/Zip/Zip.php');
-        $this->ftp->put($this->zip_name, $this->zip_path);
+        $this->ftp->put('temp/' . $this->zip_name, $this->zip_path);
         unlink($this->zip_path);
 
         $temp_unzip_path = __DIR__ . '/_un';
